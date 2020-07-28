@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 import os
 import os.path as osp
 import numpy as np
+from PIL import Image
 
 from utils import Config
 
@@ -13,14 +14,18 @@ class kitti_dataset:
         self.train_dir = Config['train_path']
         self.test_dir = Config['test_path']
         self.transforms = self.get_data_transforms()
+        self.X_train_dir = osp.join(self.train_dir, 'image_2')
+        self.y_train_dir = osp.join(self.train_dir, 'gt_image_2')
 
     def get_data_transforms(self):
         data_transforms = {
             'train': transforms.Compose([
+                transforms.CenterCrop((370,1240)),
                 transforms.ToTensor(),
                 transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
             ]),
             'val': transforms.Compose([
+                transforms.CenterCrop((370,1240)),
                 transforms.ToTensor(),
                 transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
             ]),
@@ -30,8 +35,8 @@ class kitti_dataset:
     # read train data files
     def create_trainset(self):
         X, y = [], []
-        X_files = sorted(os.listdir(osp.join(self.train_dir, 'image_2')))
-        y_files = sorted(os.listdir(osp.join(self.train_dir, 'gt_image_2')))
+        X_files = sorted([osp.join(self.X_train_dir, file) for file in os.listdir(self.X_train_dir)])
+        y_files = sorted([osp.join(self.y_train_dir, file) for file in os.listdir(self.y_train_dir)])
         for x_item, y_item in zip(X_files, y_files):
             X.append(x_item)
             y.append(y_item)
@@ -54,7 +59,7 @@ class kitti_train(Dataset):
         return len(self.X_train)
 
     def __getitem__(self, item):
-        return self.transform(Image.open(X_train[item])), self.transform(Image.open(y_train[item]))
+        return self.transform(Image.open(self.X_train[item])), self.transform(Image.open(self.y_train[item]))
 
 
 class kitti_val(Dataset):
@@ -83,6 +88,8 @@ def get_train_dataloader(debug, batch_size, num_workers):
         train_set = kitti_train(X_train, y_train, transforms['train'])
         val_set = kitti_val(X_val, y_val, transforms['val'])
         dataset_size = {'train': train_set.__len__(), 'val': val_set.__len__()}
+
+    print(dataset_size)
 
     datasets = {'train': train_set, 'val': val_set}
     dataloaders = {x: DataLoader(datasets[x],

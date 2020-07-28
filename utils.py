@@ -1,8 +1,8 @@
 Config = {}
 
-Config['root_path'] = '/Users/ashwin/Downloads/CarND-Semantic-Segmentation'
-Config['train_path'] = '/Users/ashwin/Downloads/CarND-Semantic-Segmentation/data/data_road/training'
-Config['test_path'] = '/Users/ashwin/Downloads/CarND-Semantic-Segmentation/data/data_road/testing'
+Config['root_path'] = '/Users/Downloads/CarND-Semantic-Segmentation'
+Config['train_path'] = '/Users/Downloads/CarND-Semantic-Segmentation/data/data_road/training'
+Config['test_path'] = '/Users/Downloads/CarND-Semantic-Segmentation/data/data_road/testing'
 
 Config['use_cuda'] = False
 Config['debug'] = True
