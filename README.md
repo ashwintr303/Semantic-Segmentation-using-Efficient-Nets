@@ -1,10 +1,14 @@
 # Semantic-Segmentation-using-Efficient-Nets
 Semantic Segmentation on Kitti Road Dataset using EfficientNet B0 in PyTorch
 
-## Description: 
+## Summary 
 An encoder-decoder model is used to perform semantic segmentation on Kitti Roaad Dataset in PyTorch. The encoder encodes the input images onto a low dimensional discriminative feature set and the decoder projects back the learnt features onto the high dimensional pixel space. The encoder uses a pre-trained EfficientNet B0 model and the decoder uses Transpose Convolutional layers to upsize the images back to its original size.  
 
-## Coming Soon!!
+## File Description
+utils.py: set hyperparameters and file paths
+dataloader.py: load train and validation data into PyTorch DataLoader.
+model.py: Define the encoder-decoder model.
+train.py: Training procedure.
 
 #### References:
 1. J. Fritsch, T. Kühnl and A. Geiger, "A new performance measure and evaluation benchmark for road detection algorithms," 16th International IEEE Conference on Intelligent Transportation Systems (ITSC 2013), The Hague, 2013, pp. 1693-1700, doi: 10.1109/ITSC.2013.6728473.
